@@ -5,6 +5,10 @@ VisualStudioVersion = 17.14.36414.22 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MMOlogs_BackEnd", "MMOlogs_BackEnd.csproj", "{B8460995-32EF-42EC-84E8-A45D1FEDC91D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "..\Repository\Repository.csproj", "{BA0AEF7E-E450-460C-96E5-217C83388237}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackEnd_Testing", "..\BackEnd_Testing\BackEnd_Testing.csproj", "{A2A60A21-2E72-4361-B9F8-4B7BA319D552}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{B8460995-32EF-42EC-84E8-A45D1FEDC91D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8460995-32EF-42EC-84E8-A45D1FEDC91D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8460995-32EF-42EC-84E8-A45D1FEDC91D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA0AEF7E-E450-460C-96E5-217C83388237}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA0AEF7E-E450-460C-96E5-217C83388237}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA0AEF7E-E450-460C-96E5-217C83388237}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA0AEF7E-E450-460C-96E5-217C83388237}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2A60A21-2E72-4361-B9F8-4B7BA319D552}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2A60A21-2E72-4361-B9F8-4B7BA319D552}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2A60A21-2E72-4361-B9F8-4B7BA319D552}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2A60A21-2E72-4361-B9F8-4B7BA319D552}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
