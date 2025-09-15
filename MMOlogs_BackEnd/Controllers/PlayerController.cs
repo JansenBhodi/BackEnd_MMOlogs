@@ -18,6 +18,7 @@ namespace MMOlogs_BackEnd.Controllers
         [HttpGet("")]
         public IEnumerable<PlayerClass> Get()
         {
-            return new PlayerClass[];
+            return new List<PlayerClass>();
         }
     }
+}
