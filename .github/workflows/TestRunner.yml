@@ -32,12 +32,19 @@ jobs:
       uses: microsoft/setup-msbuild@v2
 
     - name: Install dependencies
-      run: dotnet restore
+      run: 
+        cd MMOlogs_BackEnd
+        dotnet restore
+       
       
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: 
+        cd MMOlogs_BackEnd
+        dotnet build --configuration Release --no-restore
     
     - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      run: 
+        cd BackEnd_Testing
+        dotnet test --no-restore --verbosity normal
 
 
