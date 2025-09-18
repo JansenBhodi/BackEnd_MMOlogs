@@ -4,7 +4,7 @@ run-name: Test trial of ${{ github.actor }}
 on:
   push:
   pull_request:
-    branches: [ main ]
+    branches: [ main, dev ]
     paths:
     - '**.cs'
     - '**.csproj'
