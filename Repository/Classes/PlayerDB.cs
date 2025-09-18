@@ -6,7 +6,18 @@ using System.Threading.Tasks;
 
 namespace Repository.Classes
 {
-    internal class PlayerDB
+    public class PlayerDB
     {
+        public int IdDb { get; private set; }
+        public string NameDb { get; set; }
+        public int RoleclassDb { get; set; }
+
+        public PlayerDB(int idDb, string nameDb, int roleclassDb) 
+        {
+            IdDb = idDb;
+            NameDb = nameDb;
+            RoleclassDb = roleclassDb;
+        }
+
     }
 }

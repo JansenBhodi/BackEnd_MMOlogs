@@ -1,6 +1,8 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
 using MMOlogs_BackEnd.Classes;
+using Repository;
+using Repository.Classes;
 
 namespace MMOlogs_BackEnd.Controllers
 {
@@ -8,6 +10,7 @@ namespace MMOlogs_BackEnd.Controllers
     [Route("[controller]")]
     public class PlayerController : ControllerBase
     {
+        private PlayerRepository _playerRepo = new PlayerRepository();
 
         private readonly ILogger<WeatherForecastController> _logger;
         public PlayerController(ILogger<WeatherForecastController> logger)
@@ -15,10 +18,16 @@ namespace MMOlogs_BackEnd.Controllers
             _logger = logger;
         }
 
-        [HttpGet("")]
-        public IEnumerable<PlayerClass> Get()
+        [HttpGet(Name = "GetListedPlayers")]
+        public IEnumerable<MmoPlayer> Get()
         {
-            return new List<PlayerClass>();
+            List<MmoPlayer> result = new List<MmoPlayer>();
+            foreach(PlayerDB playerDB in _playerRepo.GetListedPlayers())
+            {
+                result.Add(new MmoPlayer(playerDB));
+
+            }
+            return result;
         }
     }
 }
