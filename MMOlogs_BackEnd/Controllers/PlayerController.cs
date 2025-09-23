@@ -12,14 +12,14 @@ namespace MMOlogs_BackEnd.Controllers
     {
         private PlayerRepository _playerRepo = new PlayerRepository();
 
-        private readonly ILogger<WeatherForecastController> _logger;
-        public PlayerController(ILogger<WeatherForecastController> logger)
+        private readonly ILogger<PlayerController> _logger;
+        public PlayerController(ILogger<PlayerController> logger)
         {
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetListedPlayers")]
-        public IEnumerable<MmoPlayer> Get()
+        [HttpGet]
+        public IEnumerable<MmoPlayer> AllListedPlayers()
         {
             List<MmoPlayer> result = new List<MmoPlayer>();
             foreach(PlayerDB playerDB in _playerRepo.GetListedPlayers())
@@ -28,6 +28,21 @@ namespace MMOlogs_BackEnd.Controllers
 
             }
             return result;
+        }
+
+        [HttpGet("{id}")]
+        public MmoPlayer PlayerById(int id)
+        {
+            try
+            {
+                return new MmoPlayer(_playerRepo.GetPlayerById(id));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
     }
 }
