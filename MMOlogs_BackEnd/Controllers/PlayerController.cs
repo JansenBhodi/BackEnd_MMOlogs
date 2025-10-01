@@ -19,7 +19,7 @@ namespace MMOlogs_BackEnd.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<MmoPlayer> AllListedPlayers()
+        public IActionResult AllListedPlayers()
         {
             List<MmoPlayer> result = new List<MmoPlayer>();
             foreach(PlayerDB playerDB in _playerRepo.GetListedPlayers())
@@ -27,9 +27,14 @@ namespace MMOlogs_BackEnd.Controllers
                 result.Add(new MmoPlayer(playerDB));
 
             }
-            return result;
+            return Ok(new
+            {
+                data = result,
+                totalCount = result.Count(),
+                success = true
+            });
         }
-
+        
         [HttpGet("{id}")]
         public MmoPlayer PlayerById(int id)
         {
