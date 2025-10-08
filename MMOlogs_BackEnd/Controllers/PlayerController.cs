@@ -1,4 +1,5 @@
 ﻿
+using BusinessLogic;
 using Microsoft.AspNetCore.Mvc;
 using MMOlogs_BackEnd.Classes;
 using Repository;
@@ -10,7 +11,7 @@ namespace MMOlogs_BackEnd.Controllers
     [Route("[controller]")]
     public class PlayerController : ControllerBase
     {
-        private PlayerRepository _playerRepo = new PlayerRepository();
+        private PlayersLogic _playerLogic = new PlayersLogic();
 
         private readonly ILogger<PlayerController> _logger;
         public PlayerController(ILogger<PlayerController> logger)
@@ -22,18 +23,28 @@ namespace MMOlogs_BackEnd.Controllers
         public IActionResult AllListedPlayers()
         {
             List<MmoPlayer> result = new List<MmoPlayer>();
-            foreach(PlayerDB playerDB in _playerRepo.GetListedPlayers())
+            try
             {
-                result.Add(new MmoPlayer(playerDB));
+                result = _playerLogic.GetListedPlayers();
 
+                return Ok(new
+                {
+                    data = result,
+                    totalCount = result.Count(),
+                    success = true,
+                    code = 200
+                });
             }
-            return Ok(new
+            catch (Exception)
             {
-                data = result,
-                totalCount = result.Count(),
-                success = true
-            });
+                return NotFound(new
+                {
+                    success = false,
+                    code = 404
+                });
+            }
         }
+
         
         [HttpGet("{id}")]
         public MmoPlayer PlayerById(int id)
