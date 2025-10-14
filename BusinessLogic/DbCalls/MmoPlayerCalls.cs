@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Threading.Tasks;
 using BusinessLogic.Classes;
+using System.Data.Common;
 
 namespace BusinessLogic.DbCalls
 {
@@ -21,7 +22,8 @@ namespace BusinessLogic.DbCalls
 			}
 			catch (Exception)
 			{
-				throw;
+				InvalidOperationException ex = new InvalidOperationException(message: "Retrieval of data from database failed");
+				throw ex;
 			}
         }
 
@@ -36,7 +38,7 @@ namespace BusinessLogic.DbCalls
 			}
 			catch (ArgumentNullException ex)
 			{
-
+				ex = new ArgumentNullException(paramName: name, message: "There are multiple individuals with this name.");
 				throw ex;
 			}
 			catch (InvalidOperationException ex)

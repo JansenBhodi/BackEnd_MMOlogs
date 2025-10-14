@@ -14,7 +14,6 @@ namespace MMOlogs_BackEnd.Controllers
     public class PlayerController : ControllerBase
     {
         private readonly PlayersLogic _playerLogic = new PlayersLogic(new MmoPlayerCalls());
-
         private readonly ILogger<PlayerController> _logger;
         public PlayerController(ILogger<PlayerController> logger)
         {
@@ -37,6 +36,14 @@ namespace MMOlogs_BackEnd.Controllers
                     code = 200
                 });
             }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new
+                {
+                    success = false,
+                    message = ex.Message
+                });
+            }
             catch (Exception)
             {
                 return NotFound(new
@@ -46,18 +53,37 @@ namespace MMOlogs_BackEnd.Controllers
                 });
             }
         }
-
-        
         [HttpGet("{name}")]
         public IActionResult PlayerByName(string name)
         {
             try
             {
+                MmoPlayer result = _playerLogic.GetPlayer(name);
+                if (result == null)
+                {
+                    throw new InvalidOperationException(message: "No User was found with this name");
+                }
                 return Ok(new 
                 {
-                    data = _playerLogic.GetPlayer(name),
+                    data = result,
                     success = true,
                     code = 200
+                });
+            }
+            catch(ArgumentException ex)
+            {
+                return Ok(new
+                {
+                    success = false,
+                    message = ex.Message
+                });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Ok(new
+                {
+                    message = ex.Message,
+                    success = false
                 });
             }
             catch (Exception)
@@ -75,6 +101,7 @@ namespace MMOlogs_BackEnd.Controllers
             try
             {
                 MmoPlayer result = _playerLogic.AddPlayer(player);
+                
                 return CreatedAtAction(
                         nameof(PlayerByName), new { Name = result.Name }, result
                         );

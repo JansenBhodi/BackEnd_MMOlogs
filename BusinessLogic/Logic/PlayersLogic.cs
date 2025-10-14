@@ -41,6 +41,11 @@ namespace BusinessLogic.Logic
         {
             try
             {
+                if (name == "")
+                {
+                    throw new ArgumentException(message: "Player name cannot be blank.");
+                }
+
                 return _dbCall.GetPlayerByName(name);
             }
             catch (Exception)
