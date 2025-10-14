@@ -1,14 +1,26 @@
-﻿using Repository.Classes;
+﻿using BusinessLogic.DTO;
+using Microsoft.EntityFrameworkCore;
+using Repository.Classes;
+using System.ComponentModel.DataAnnotations;
 
-namespace MMOlogs_BackEnd.Classes
+namespace BusinessLogic.Classes
 {
+    [Index(nameof(MmoPlayer.Name), IsUnique = true)]
     public class MmoPlayer
     {
-        public int Id { get; private set; }
+        
+        public int  Id { get; set; }
+        [StringLength(200)]
         public string Name { get; set; }
         public Roleclass Roleclass { get; set; }
 
-        public MmoPlayer(int id,  string name, Roleclass roleclass)
+
+        public MmoPlayer()
+        {
+
+        }
+
+        public MmoPlayer(int id, string name, Roleclass roleclass)
         {
             Id = id;
             Name = name;
@@ -20,6 +32,13 @@ namespace MMOlogs_BackEnd.Classes
             Id = playerDb.IdDb;
             Name = playerDb.NameDb;
             Roleclass = (Roleclass)playerDb.RoleclassDb;
+        }
+
+        //constructor for creating new players
+        public MmoPlayer(MmoPlayerCreateDTO input)
+        {
+            Name = input.Name;
+            Roleclass = input.Roleclass;
         }
     }
 }

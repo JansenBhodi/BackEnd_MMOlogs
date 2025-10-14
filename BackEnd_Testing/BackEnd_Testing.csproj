@@ -8,4 +8,15 @@
     <UseVSTest>true</UseVSTest>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="API call testing\" />
+    <Folder Include="Integration testing\" />
+    <Folder Include="Unit Testing\" />
+  </ItemGroup>
+
 </Project>

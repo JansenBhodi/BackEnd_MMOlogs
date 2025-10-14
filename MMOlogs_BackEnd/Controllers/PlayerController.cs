@@ -1,9 +1,11 @@
-﻿
-using BusinessLogic;
-using Microsoft.AspNetCore.Mvc;
-using MMOlogs_BackEnd.Classes;
+﻿using Microsoft.AspNetCore.Mvc;
+using BusinessLogic.Classes;
 using Repository;
 using Repository.Classes;
+using Microsoft.AspNetCore.Authorization;
+using BusinessLogic.Logic;
+using BusinessLogic.DbCalls;
+using BusinessLogic.DTO;
 
 namespace MMOlogs_BackEnd.Controllers
 {
@@ -11,7 +13,7 @@ namespace MMOlogs_BackEnd.Controllers
     [Route("[controller]")]
     public class PlayerController : ControllerBase
     {
-        private PlayersLogic _playerLogic = new PlayersLogic();
+        private readonly PlayersLogic _playerLogic = new PlayersLogic(new MmoPlayerCalls());
 
         private readonly ILogger<PlayerController> _logger;
         public PlayerController(ILogger<PlayerController> logger)
@@ -46,19 +48,53 @@ namespace MMOlogs_BackEnd.Controllers
         }
 
         
-        [HttpGet("{id}")]
-        public MmoPlayer PlayerById(int id)
+        [HttpGet("{name}")]
+        public IActionResult PlayerByName(string name)
         {
             try
             {
-                return new MmoPlayer(_playerRepo.GetPlayerById(id));
+                return Ok(new 
+                {
+                    data = _playerLogic.GetPlayer(name),
+                    success = true,
+                    code = 200
+                });
             }
             catch (Exception)
             {
-
-                throw;
+                return NotFound(new
+                {
+                    success = false,
+                    code = 404
+                });
             }
-
+        }
+        [HttpPost]
+        public ActionResult<MmoPlayer> AddPlayer([FromBody]MmoPlayerCreateDTO player)
+        {
+            try
+            {
+                MmoPlayer result = _playerLogic.AddPlayer(player);
+                return CreatedAtAction(
+                        nameof(PlayerByName), new { Name = result.Name }, result
+                        );
+            }
+            catch(ArgumentException ex)
+            {
+                return Ok(new
+                {
+                    message = ex.Message,
+                    success = false
+                });
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new
+                {
+                    success = false,
+                    code = 404
+                });
+            }
         }
     }
 }

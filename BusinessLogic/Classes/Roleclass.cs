@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace MMOlogs_BackEnd.Classes
+namespace BusinessLogic.Classes
 {
     public enum Roleclass
     {
