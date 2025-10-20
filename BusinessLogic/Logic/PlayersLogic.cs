@@ -30,7 +30,6 @@ namespace BusinessLogic.Logic
             }
             catch (Exception)
             {
-
                 throw;
             }
 
