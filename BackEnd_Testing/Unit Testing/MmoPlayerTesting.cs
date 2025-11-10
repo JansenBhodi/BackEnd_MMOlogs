@@ -1,14 +1,15 @@
-﻿using System;
+﻿using AutoFixture;
+using BusinessLogic.Classes;
+using BusinessLogic.DbCalls;
+using BusinessLogic.Logic;
 using Moq;
 using Moq.Protected;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BusinessLogic.Logic;
-using BusinessLogic.DbCalls;
-using BusinessLogic.Classes;
-using AutoFixture;
+using System.Xml.Linq;
 
 namespace BackEnd_Testing.Unit_Testing
 {
@@ -121,7 +122,39 @@ namespace BackEnd_Testing.Unit_Testing
                 Assert.AreEqual(input[i], output[i], $"Mismatch at index {i}");
             }
         }
+
         [TestMethod]
+        public void DatabaseErrorRetrieveListedPlayers()
+        {
+            //Arrange
+            var playerDbMock = new Mock<ImmoPlayerCalls>();
+            var input = new InvalidOperationException(message: "Retrieval of data from database failed");
+            playerDbMock.Setup(p => p.GetListedPlayers()).Throws(input);
+            PlayersLogic logic = new PlayersLogic(playerDbMock.Object);
+
+            //Act
+            try
+            {
+                List<MmoPlayer> output = logic.GetListedPlayers();
+
+                //If an error does not occur then something went wrong with the test.
+                Assert.Fail();
+            }
+            catch (InvalidOperationException ex)
+            {
+                //Check if the error message was properly attached. Follow it up with making sure the mock was used once.
+                Assert.AreEqual("Retrieval of data from database failed", ex.Message);
+                playerDbMock.Verify(p => p.GetListedPlayers(), Times.Once);
+            }
+            catch (Exception)
+            {
+                //If the previously expected error is not thrown then something went wrong.
+                Assert.Fail();
+            }
+
+            //Assert
+
+        }
 
         #endregion
     }
