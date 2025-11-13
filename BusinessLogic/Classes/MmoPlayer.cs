@@ -8,10 +8,11 @@ namespace BusinessLogic.Classes
     [Index(nameof(MmoPlayer.Name), IsUnique = true)]
     public class MmoPlayer
     {
-        
+        [Key]
         public int  Id { get; set; }
-        [StringLength(200)]
+        [StringLength(200), Required]
         public string Name { get; set; }
+        [Required]
         public Roleclass Roleclass { get; set; }
 
 

@@ -10,6 +10,9 @@ namespace BusinessLogic.Classes
     public class MmoContext : DbContext
     {
         public DbSet<MmoPlayer> MmoPlayers { get; set; }
+        public DbSet<Boss> Bosses { get; set; }
+        public DbSet<Mechanic> Mechanics { get; set; }
+        public DbSet<ItemDrop> ItemDrops { get; set; }
 
         public string DbPath { get; }
 
@@ -29,7 +32,7 @@ namespace BusinessLogic.Classes
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlite($"Data Source={DbPath}");
+        => options.UseSqlite($"Data Source={DbPath}", b => b.MigrationsAssembly("BusinessLogic"));
 
         
     }
