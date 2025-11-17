@@ -12,78 +12,108 @@ on:
       - dev
 
 env:
-  DOTNET_VERSION: '9.0.x' # Your desired .NET SDK version
+  DOTNET_VERSION: '9.0.x'
 
 jobs:
   build-test-analyze:
-    name: Build, Test, and Analyze Backend
     runs-on: windows-latest
 
     steps:
-      # 1. Checkout repository
+
+      # ---------------------------
+      # Checkout Repo
+      # ---------------------------
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # 2. Set up .NET SDK
+      # ---------------------------
+      # Setup .NET + MSBuild
+      # ---------------------------
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      # 3. Set up MSBuild
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
 
-      # 4. Set up JDK for SonarScanner
+      # ---------------------------
+      # Setup Java (SonarCloud requirement)
+      # ---------------------------
       - name: Setup JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: 17
           distribution: 'zulu'
 
-      # 5. Cache SonarScanner packages
+      # ---------------------------
+      # Cache Sonar Scanner
+      # ---------------------------
       - name: Cache SonarCloud scanner
+        id: cache-sonar
         uses: actions/cache@v4
         with:
           path: ${{ runner.temp }}\scanner
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
 
-      # 6. Install SonarScanner if cache missed
+      # ---------------------------
+      # Install SonarScanner if not cached
+      # ---------------------------
       - name: Install SonarScanner
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        if: steps.cache-sonar.outputs.cache-hit != 'true'
         shell: powershell
         run: |
           New-Item -Path ${{ runner.temp }}\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path ${{ runner.temp }}\scanner
 
-      # 7. Restore backend dependencies
+      # ---------------------------
+      # Restore project dependencies
+      # ---------------------------
       - name: Restore Dependencies
         working-directory: MMOlogs_BackEnd
         run: dotnet restore
 
-      # 8. Begin SonarCloud analysis
+      # ---------------------------
+      # SonarCloud BEGIN
+      # MUST run from same folder as the SLN
+      # ---------------------------
       - name: Begin SonarCloud Analysis
+        working-directory: MMOlogs_BackEnd
         shell: powershell
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           $scanner = "${{ runner.temp }}\scanner\dotnet-sonarscanner"
-          & $scanner begin /k:"JansenBhodi_BackEnd_MMOlogs" /o:"jansenbhodi" /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          & $scanner begin `
+            /k:"JansenBhodi_BackEnd_MMOlogs" `
+            /o:"jansenbhodi" `
+            /d:sonar.login="${{ secrets.SONAR_TOKEN }}" `
+            /d:sonar.host.url="https://sonarcloud.io"
 
-      # 9. Build backend
+      # ---------------------------
+      # Build backend
+      # MUST run inside same folder
+      # ---------------------------
       - name: Build Backend
         working-directory: MMOlogs_BackEnd
         run: dotnet build --configuration Release --no-restore
 
-      # 10. Run tests
+      # ---------------------------
+      # Run tests
+      # Test folder is separate → correct!
+      # ---------------------------
       - name: Run Tests
         working-directory: BackEnd_Testing
         run: dotnet test --no-restore --verbosity normal
 
-      # 11. End SonarCloud analysis
+      # ---------------------------
+      # SonarCloud END
+      # MUST run from same SLN directory
+      # ---------------------------
       - name: End SonarCloud Analysis
+        working-directory: MMOlogs_BackEnd
         shell: powershell
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
