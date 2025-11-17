@@ -58,6 +58,25 @@ namespace BusinessLogic.DbCalls
             }
         }
 
+        public Boss AddBoss(BossCreateDTO bossCreateDTO)
+        {
+            try
+            {
+                using (var context = new MmoContext())
+                {
+                    Boss input = new Boss(bossCreateDTO);
+                    context.Bosses.Add(input);
+                    context.SaveChanges();
+                    return input;
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 
     }
 }

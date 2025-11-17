@@ -49,5 +49,18 @@ namespace BusinessLogic.Logic
                 throw;
             }
         }
+
+        public Boss AddBoss(BossCreateDTO boss)
+        {
+            try
+            {
+                return _bossDb.AddBoss(boss);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

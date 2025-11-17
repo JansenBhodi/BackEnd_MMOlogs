@@ -89,10 +89,10 @@ namespace MMOlogs_BackEnd.Controllers
         {
             try
             {
-                Boss result = _bossLogic.Add(boss);
+                Boss result = _bossLogic.AddBoss(boss);
 
                 return CreatedAtAction(
-                        nameof(GetBoss), new { Id = result.Id }, result);
+                        nameof(GetBoss), new { id = result.Id }, result);
             }
             catch (ArgumentException ex)
             {
@@ -113,16 +113,11 @@ namespace MMOlogs_BackEnd.Controllers
 
         }
 
-        // PUT api/<PlayerTestController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
 
-        // DELETE api/<PlayerTestController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] string value)
+        //{
+        //}
+
     }
 }

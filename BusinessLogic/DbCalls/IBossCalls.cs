@@ -12,5 +12,6 @@ namespace BusinessLogic.DbCalls
     {
         public List<BossOverviewDTO> GetBosses();
         public Boss GetBoss(int id);
+        public Boss AddBoss(BossCreateDTO bossCreateDTO);
     }
 }

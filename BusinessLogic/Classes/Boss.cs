@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLogic.DTO;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -23,6 +24,13 @@ namespace BusinessLogic.Classes
         public Boss() 
         {
 
+        }
+        public Boss(BossCreateDTO dto)
+        {
+            Name = dto.Name;
+            Description = dto.Description;
+            MaxLife = dto.MaxLife;
+            Level = dto.Level;
         }
     }
 }
