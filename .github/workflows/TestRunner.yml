@@ -70,7 +70,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           $scanner = "${{ runner.temp }}\scanner\dotnet-sonarscanner"
-          $scanner begin /k:"JansenBhodi_BackEnd_MMOlogs" /o:"jansenbhodi" /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          & $scanner begin /k:"JansenBhodi_BackEnd_MMOlogs" /o:"jansenbhodi" /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 
       # 9. Build backend
       - name: Build Backend
@@ -89,4 +89,4 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           $scanner = "${{ runner.temp }}\scanner\dotnet-sonarscanner"
-          $scanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          & $scanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
