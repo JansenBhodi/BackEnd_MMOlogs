@@ -1,93 +1,47 @@
-name: Build, Test, and SonarCloud Analysis
+name: Test suite runner
+run-name: Test trial of ${{ github.actor }}
 
 on:
   push:
-    branches:
-      - main
-      - dev
   pull_request:
-    types: [opened, synchronize, reopened]
-    branches:
-      - main
-      - dev
+    branches: [ main, dev ]
+    paths:
+    - '**.cs'
+    - '**.csproj'
 
 env:
-  DOTNET_VERSION: '9.0.x'
+  DOTNET_VERSION: '9.0.x' # The .NET SDK version to use
 
 jobs:
-  build-test-analyze:
-    runs-on: windows-latest
+  build-and-test:
+
+    name: build-and-test-${{matrix.os}}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest]
 
     steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+    - name: Setup MSBuild.exe
+      uses: microsoft/setup-msbuild@v2
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: Dependencies
+      working-directory: MMOlogs_BackEnd
+      run: dotnet restore
+       
+      
+    - name: Build
+      working-directory: MMOlogs_BackEnd
+      run: dotnet build --configuration Release --no-restore
+    
+    - name: Test
+      working-directory: BackEnd_Testing
+      run: dotnet test --no-restore --verbosity normal
 
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
 
-      - name: Setup JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: 17
-          distribution: 'zulu'
-
-      #Sonar cube cache
-      - name: Cache SonarCloud scanner
-        id: cache-sonar
-        uses: actions/cache@v4
-        with:
-          path: ${{ runner.temp }}\scanner
-          key: ${{ runner.os }}-sonar-scanner
-          restore-keys: ${{ runner.os }}-sonar-scanner
-
-      # ---------------------------
-      # Install SonarScanner if not cached
-      # ---------------------------
-      - name: Install SonarScanner
-        if: steps.cache-sonar.outputs.cache-hit != 'true'
-        shell: powershell
-        run: |
-          New-Item -Path ${{ runner.temp }}\scanner -ItemType Directory
-          dotnet tool update dotnet-sonarscanner --tool-path ${{ runner.temp }}\scanner
-
-      - name: Restore Dependencies
-        working-directory: MMOlogs_BackEnd
-        run: dotnet restore
-
-      # MUST run from same folder as the SLN
-      - name: Begin SonarCloud Analysis
-        working-directory: MMOlogs_BackEnd
-        shell: powershell
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          $scanner = "${{ runner.temp }}\scanner\dotnet-sonarscanner"
-          & $scanner begin `
-            /k:"JansenBhodi_BackEnd_MMOlogs" `
-            /o:"jansenbhodi" `
-            /d:sonar.login="${{ secrets.SONAR_TOKEN }}" `
-            /d:sonar.host.url="https://sonarcloud.io"
-
-      - name: Build Backend
-        working-directory: MMOlogs_BackEnd
-        run: dotnet build --configuration Release --no-restore
-
-      - name: Run Tests
-        working-directory: BackEnd_Testing
-        run: dotnet test --no-restore --verbosity normal
-
-      - name: End SonarCloud Analysis
-        working-directory: MMOlogs_BackEnd
-        shell: powershell
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          $scanner = "${{ runner.temp }}\scanner\dotnet-sonarscanner"
-          & $scanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
