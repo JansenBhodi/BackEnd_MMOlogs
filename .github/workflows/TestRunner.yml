@@ -20,16 +20,10 @@ jobs:
 
     steps:
 
-      # ---------------------------
-      # Checkout Repo
-      # ---------------------------
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # ---------------------------
-      # Setup .NET + MSBuild
-      # ---------------------------
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -38,18 +32,13 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
 
-      # ---------------------------
-      # Setup Java (SonarCloud requirement)
-      # ---------------------------
       - name: Setup JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: 17
           distribution: 'zulu'
 
-      # ---------------------------
-      # Cache Sonar Scanner
-      # ---------------------------
+      #Sonar cube cache
       - name: Cache SonarCloud scanner
         id: cache-sonar
         uses: actions/cache@v4
@@ -68,17 +57,11 @@ jobs:
           New-Item -Path ${{ runner.temp }}\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path ${{ runner.temp }}\scanner
 
-      # ---------------------------
-      # Restore project dependencies
-      # ---------------------------
       - name: Restore Dependencies
         working-directory: MMOlogs_BackEnd
         run: dotnet restore
 
-      # ---------------------------
-      # SonarCloud BEGIN
       # MUST run from same folder as the SLN
-      # ---------------------------
       - name: Begin SonarCloud Analysis
         working-directory: MMOlogs_BackEnd
         shell: powershell
@@ -92,26 +75,14 @@ jobs:
             /d:sonar.login="${{ secrets.SONAR_TOKEN }}" `
             /d:sonar.host.url="https://sonarcloud.io"
 
-      # ---------------------------
-      # Build backend
-      # MUST run inside same folder
-      # ---------------------------
       - name: Build Backend
         working-directory: MMOlogs_BackEnd
         run: dotnet build --configuration Release --no-restore
 
-      # ---------------------------
-      # Run tests
-      # Test folder is separate → correct!
-      # ---------------------------
       - name: Run Tests
         working-directory: BackEnd_Testing
         run: dotnet test --no-restore --verbosity normal
 
-      # ---------------------------
-      # SonarCloud END
-      # MUST run from same SLN directory
-      # ---------------------------
       - name: End SonarCloud Analysis
         working-directory: MMOlogs_BackEnd
         shell: powershell
