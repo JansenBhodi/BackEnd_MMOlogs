@@ -49,7 +49,7 @@ namespace MMOlogs_BackEnd.Controllers
         {
             try
             {
-                Boss result = _bossLogic.GetBoss(id);
+                BossDetailDTO result = _bossLogic.GetBoss(id);
 
                 return Ok(new
                 {

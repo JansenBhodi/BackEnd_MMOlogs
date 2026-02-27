@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Classes
@@ -17,6 +18,7 @@ namespace BusinessLogic.Classes
         public string Description { get; set; }
         public int MaxLife { get; set; }
         public int Level { get; set; }
+
 
         public ICollection<Mechanic> Mechanics { get; set; } = new List<Mechanic>();
         public ICollection<ItemDrop> ItemDrops { get; set; } = new List<ItemDrop>();

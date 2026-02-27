@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Classes
@@ -18,7 +19,7 @@ namespace BusinessLogic.Classes
         public StatInfo SecondaryStat { get; set; } = new();
         public StatInfo? TertiaryStat { get; set; } = new();
 
-
+        [JsonIgnore]
         public ICollection<Boss> Bosses { get; set; } = new List<Boss>(); 
     }
 

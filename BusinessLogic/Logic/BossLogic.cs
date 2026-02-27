@@ -35,13 +35,24 @@ namespace BusinessLogic.Logic
             return result;
         }
 
-        public Boss GetBoss(int id)
+        public BossDetailDTO GetBoss(int id)
         {
-            Boss result = new Boss();
+            Boss output = new Boss();
 
             try
             {
-                return _bossDb.GetBoss(id);
+                output = _bossDb.GetBoss(id);
+                try
+                {
+                    BossDetailDTO result = new BossDetailDTO(output);
+
+                    return result;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
             }
             catch (Exception)
             {
