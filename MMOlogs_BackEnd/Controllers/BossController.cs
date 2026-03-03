@@ -1,4 +1,4 @@
-﻿using BusinessLogic.Classes;
+﻿    using BusinessLogic.Classes;
 using BusinessLogic.DbCalls;
 using BusinessLogic.DTO;
 using BusinessLogic.Logic;
@@ -25,6 +25,7 @@ namespace MMOlogs_BackEnd.Controllers
             List<BossOverviewDTO> Bosses = new List<BossOverviewDTO>();
             try
             {
+                
                 Bosses = _bossLogic.GetBosses();
 
                 return Ok(new
