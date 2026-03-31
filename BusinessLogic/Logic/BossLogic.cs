@@ -70,7 +70,7 @@ namespace BusinessLogic.Logic
             catch (Exception)
             {
 
-                throw;
+                throw new ArgumentNullException("BossCreateDTO", "Cannot create a new boss item due to the passed item being null.");
             }
         }
     }

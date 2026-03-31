@@ -45,7 +45,30 @@ namespace BackEnd_Testing.Unit_Testing
         }
 
         [TestMethod]
-        public void 
-        #endregion
+        public void FailedCreateSinceBossIsNull()
+        {
+            //Arrange
+            var bossDbMock = new Mock<IBossCalls>();
+            BossLogic logic = new BossLogic(bossDbMock.Object);
+            //Act
+            try
+            {
+                //We attempt to make the logic crash out here
+                Boss result = logic.AddBoss(null);
+            }
+            //assert
+            catch (ArgumentNullException ex)
+            {
+                //Lets validate the correct argumentNullException is thrown
+                Assert.AreEqual("Cannot create a new boss item due to the passed item being null.", ex.Message);
+                Assert.AreEqual("BossCreateDTO", ex.ParamName);
+            }
+            catch (Exception ex)
+            {
+                //If a wrong exception is thrown the test will fail
+                Assert.Fail();
+            }
+        }
+            #endregion
     }
 }
