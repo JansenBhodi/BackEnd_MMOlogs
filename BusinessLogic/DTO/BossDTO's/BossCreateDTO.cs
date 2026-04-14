@@ -13,13 +13,17 @@ namespace BusinessLogic.DTO
         public int MaxLife { get; set; }
         public int Level { get; set; }
 
-        //needed for testing
-        //public BossCreateDTO(string name, string desc, int maxLife, int level) 
-        //{
-        //    Name = name;
-        //    Description = desc;
-        //    MaxLife = maxLife;
-        //    Level = level;
-        //}
+        public BossCreateDTO()
+        {
+
+        }
+
+        public BossCreateDTO(string name, string desc, int maxLife, int level)
+        {
+            Name = name;
+            Description = desc;
+            MaxLife = maxLife;
+            Level = level;
+        }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BusinessLogic.Classes;
-using Repository;
-using Repository.Classes;
+
 using Microsoft.AspNetCore.Authorization;
 using BusinessLogic.Logic;
 using BusinessLogic.DbCalls;
