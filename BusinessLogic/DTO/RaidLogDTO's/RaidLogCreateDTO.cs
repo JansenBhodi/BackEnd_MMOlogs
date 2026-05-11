@@ -9,10 +9,10 @@ namespace BusinessLogic.DTO.RaidLogDTO_s
     public class RaidLogCreateDTO
     {
         public string Uploader { get; set; }
-        public string PlayerName { get; set; }
+        public string Player { get; set; }
         public DateTime LogDate { get; set; }
 
-        public List<RaidLogEntry> entries { get; set; }
+        public List<RaidLogEntry> pulls { get; set; }
 
         public class RaidLogEntry
         {

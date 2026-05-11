@@ -36,12 +36,12 @@ namespace BusinessLogic.Classes
         public RaidLog(RaidLogCreateDTO input, int entry)
         {
             Uploader = input.Uploader;
-            PlayerName = input.PlayerName;
+            PlayerName = input.Player;
             LogDate = input.LogDate;
-            BossName = input.entries[entry].BossName;
-            DeathCount = input.entries[entry].DeathCount;
-            DamageDone = input.entries[entry].DamageDone;
-            HealingDone = input.entries[entry].HealingDone;
+            BossName = input.pulls[entry].BossName;
+            DeathCount = input.pulls[entry].DeathCount;
+            DamageDone = input.pulls[entry].DamageDone;
+            HealingDone = input.pulls[entry].HealingDone;
         }
 
     }

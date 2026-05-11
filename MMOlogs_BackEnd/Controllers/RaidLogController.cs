@@ -19,10 +19,6 @@ namespace MMOlogs_BackEnd.Controllers
         
         }
         
-        public IActionResult Index()
-        {
-            return View();
-        }
 
         [HttpPost]
         public IActionResult AddRaidLog([FromBody] RaidLogCreateDTO input)

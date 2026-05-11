@@ -18,7 +18,7 @@ namespace BusinessLogic.DbCalls
 				List<RaidLog> output = new List<RaidLog>();
 				using(var context = new MmoContext())
 				{
-					for (int i = 0; i < input.entries.Count(); i++)
+					for (int i = 0; i < input.pulls.Count(); i++)
                     {
                         RaidLog entry = new RaidLog(input, i);
                         context.RaidLogs.Add(entry);
