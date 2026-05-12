@@ -23,18 +23,25 @@ builder.Services.AddCors(options =>
         });
 });
 
+builder.WebHost.UseUrls("http://0.0.0.0:8080");
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Auto apply migrations on startup
+using (var scope = app.Services.CreateScope())
 {
-    app.MapScalarApiReference();
-    app.MapOpenApi();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/openapi/v1.json", "OpenAPI V1");
-    });
+    var db = scope.ServiceProvider.GetRequiredService<MmoContext>();
+    db.Database.Migrate();
 }
+
+// Configure the HTTP request pipeline.
+//We want these pages to always be visible
+app.MapScalarApiReference();
+app.MapOpenApi();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/openapi/v1.json", "OpenAPI V1");
+});
 
 app.UseHttpsRedirection();
 
