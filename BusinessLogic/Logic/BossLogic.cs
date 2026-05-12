@@ -35,13 +35,24 @@ namespace BusinessLogic.Logic
             return result;
         }
 
-        public Boss GetBoss(int id)
+        public BossDetailDTO GetBoss(int id)
         {
-            Boss result = new Boss();
+            Boss output = new Boss();
 
             try
             {
-                return _bossDb.GetBoss(id);
+                output = _bossDb.GetBoss(id);
+                try
+                {
+                    BossDetailDTO result = new BossDetailDTO(output);
+
+                    return result;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
             }
             catch (Exception)
             {
@@ -59,7 +70,7 @@ namespace BusinessLogic.Logic
             catch (Exception)
             {
 
-                throw;
+                throw new ArgumentNullException("BossCreateDTO", "Cannot create a new boss item due to the passed item being null.");
             }
         }
     }

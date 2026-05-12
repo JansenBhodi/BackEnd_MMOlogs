@@ -10,8 +10,6 @@ namespace BusinessLogic.Logic
 {
     public class PlayersLogic
     {
-        private PlayerRepository _playerRepo = new PlayerRepository();
-
         //Create class that handles data calls (this separates ef when doing unit tests on business logic)
         private ImmoPlayerCalls _dbCall;
 

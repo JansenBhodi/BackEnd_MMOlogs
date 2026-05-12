@@ -1,31 +1,96 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BusinessLogic.Classes;
+using BusinessLogic.DbCalls;
+using BusinessLogic.DTO;
+using BusinessLogic.DTO.MechanicDTO_s;
+using BusinessLogic.Logic;
+using Microsoft.AspNetCore.Mvc;
+using System.Xml.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace MMOlogs_BackEnd.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("[controller]")]
     public class MechanicsController : ControllerBase
     {
-        // GET: api/<PlayerTestController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly MechanicLogic _mechanicLogic = new MechanicLogic(new MechanicsCalls());
+        private readonly ILogger<MechanicsController> _logger;
+        public MechanicsController(ILogger<MechanicsController> logger)
         {
-            return new string[] { "value1", "value2" };
+            _logger = logger;
         }
 
-        // GET api/<PlayerTestController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            try
+            {
+                MechanicDetailDTO result = _mechanicLogic.GetMechanic(id);
+                if (result == null)
+                {
+                    throw new InvalidOperationException(message: "No mechanic was found with this id");
+                }
+                return Ok(new
+                {
+                    data = result,
+                    success = true,
+                    code = 200
+                });
+            }
+            catch (ArgumentException ex)
+            {
+                return Ok(new
+                {
+                    success = false,
+                    message = ex.Message
+                });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Ok(new
+                {
+                    message = ex.Message,
+                    success = false
+                });
+            }
+            catch (Exception)
+            {
+                return NotFound(new
+                {
+                    success = false,
+                    code = 404
+                });
+            }
         }
 
-        // POST api/<PlayerTestController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<Mechanic> Post([FromBody]MechanicCreateDTO mechanic)
         {
+            try
+            {
+                Mechanic result = _mechanicLogic.AddMechanic(mechanic);
+
+                return CreatedAtAction(
+                        nameof(Get), new { id = result.Id }, result
+                        );
+            }
+            catch (ArgumentException ex)
+            {
+                return Ok(new
+                {
+                    message = ex.Message,
+                    success = false
+                });
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new
+                {
+                    success = false,
+                    code = 404
+                });
+            }
         }
 
         // PUT api/<PlayerTestController>/5

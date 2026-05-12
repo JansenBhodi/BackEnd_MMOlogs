@@ -25,6 +25,7 @@ namespace MMOlogs_BackEnd.Controllers
             List<BossOverviewDTO> Bosses = new List<BossOverviewDTO>();
             try
             {
+                
                 Bosses = _bossLogic.GetBosses();
 
                 return Ok(new
@@ -49,7 +50,7 @@ namespace MMOlogs_BackEnd.Controllers
         {
             try
             {
-                Boss result = _bossLogic.GetBoss(id);
+                BossDetailDTO result = _bossLogic.GetBoss(id);
 
                 return Ok(new
                 {
