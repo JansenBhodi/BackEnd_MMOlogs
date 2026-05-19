@@ -13,12 +13,13 @@ namespace BusinessLogic.DbCalls
 
         public List<RaidLog> CreateRaidLog(RaidLogCreateDTO input)
         {
+			int counter = input.pulls.Count();
 			try
 			{
 				List<RaidLog> output = new List<RaidLog>();
 				using(var context = new MmoContext())
 				{
-					for (int i = 0; i < input.pulls.Count(); i++)
+					for (int i = 0; i < counter; i++)
                     {
                         RaidLog entry = new RaidLog(input, i);
                         context.RaidLogs.Add(entry);

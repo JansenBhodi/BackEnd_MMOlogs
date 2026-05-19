@@ -32,8 +32,8 @@ namespace BusinessLogic.Classes
                 : Path.Join(AppContext.BaseDirectory, "mmo.db");
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlite($"Data Source={DbPath}", b => b.MigrationsAssembly("BusinessLogic"));
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseSqlite($"Data Source={DbPath}", b => b.MigrationsAssembly("BusinessLogic"));
 
         
     }

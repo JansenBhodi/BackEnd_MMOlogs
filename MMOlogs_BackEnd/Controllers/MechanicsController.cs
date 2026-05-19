@@ -15,10 +15,9 @@ namespace MMOlogs_BackEnd.Controllers
     public class MechanicsController : ControllerBase
     {
         private readonly MechanicLogic _mechanicLogic = new MechanicLogic(new MechanicsCalls());
-        private readonly ILogger<MechanicsController> _logger;
-        public MechanicsController(ILogger<MechanicsController> logger)
+        public MechanicsController()
         {
-            _logger = logger;
+
         }
 
         [HttpGet("{id}")]
@@ -88,6 +87,7 @@ namespace MMOlogs_BackEnd.Controllers
                 return NotFound(new
                 {
                     success = false,
+                    message = ex.Message,
                     code = 404
                 });
             }
@@ -97,12 +97,16 @@ namespace MMOlogs_BackEnd.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
+            //Not yet implemented on either side, low priority
+            throw new NotSupportedException();
         }
 
         // DELETE api/<PlayerTestController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            //Not yet implemented on either side, low priority
+            throw new NotSupportedException();
         }
     }
 }

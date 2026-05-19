@@ -27,7 +27,8 @@ namespace BusinessLogic.DbCalls
             }
             catch (InvalidOperationException ex)
             {
-                return null;
+                ex = new InvalidOperationException(message: "There is no mechanic with this Id.");
+                throw ex;
             }
         }
 
@@ -46,8 +47,7 @@ namespace BusinessLogic.DbCalls
             }
             catch (Exception)
             {
-
-                throw;
+                throw new ArgumentException(message: "An error occured trying to create a new mechanic.");
             }
         }
 
@@ -65,8 +65,7 @@ namespace BusinessLogic.DbCalls
             }
             catch (Exception)
             {
-
-                throw;
+                throw new ArgumentException(message: "An error occured trying to update the mechanic.");
             }
         }
 

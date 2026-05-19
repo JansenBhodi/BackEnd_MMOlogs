@@ -6,42 +6,54 @@ on:
   pull_request:
     branches: [ main, dev ]
     paths:
-    - '**.cs'
-    - '**.csproj'
+      - '**.cs'
+      - '**.csproj'
 
 env:
-  DOTNET_VERSION: '9.0.x' # The .NET SDK version to use
+  DOTNET_VERSION: '9.0.x'
 
 jobs:
   build-and-test:
-
-    name: build-and-test-${{matrix.os}}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [windows-latest]
+    name: build-and-test-windows-latest
+    runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    - name: Dependencies
-      working-directory: MMOlogs_BackEnd
-      run: dotnet restore
-       
-      
-    - name: Build
-      working-directory: MMOlogs_BackEnd
-      run: dotnet build --configuration Release --no-restore
-    
-    - name: Test
-      working-directory: BackEnd_Testing
-      run: dotnet test --no-restore --verbosity normal
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v2
 
+      - name: Install dotnet-coverage
+        run: dotnet tool install --global dotnet-coverage
 
+      - name: Install SonarCloud scanner
+        run: dotnet tool install --global dotnet-sonarscanner
+
+      - name: Dependencies
+        working-directory: MMOlogs_BackEnd
+        run: dotnet restore
+
+      - name: Begin SonarCloud analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          dotnet-sonarscanner begin /k:"JansenBhodi_BackEnd_MMOlogs" /o:"jansenbhodi" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths="coverage.xml"
+
+      - name: Build
+        run: dotnet build MMOlogs_BackEnd/MMOlogs_BackEnd.csproj --configuration Release
+
+      - name: Test with coverage
+        run: dotnet-coverage collect "dotnet test BackEnd_Testing/BackEnd_Testing.csproj --verbosity normal" -f xml -o ${{ github.workspace }}/coverage.xml
+
+      - name: End SonarCloud analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
