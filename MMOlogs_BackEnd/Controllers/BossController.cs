@@ -13,20 +13,17 @@ namespace MMOlogs_BackEnd.Controllers
     public class BossController : ControllerBase
     {
         private readonly BossLogic _bossLogic = new BossLogic(new BossCalls());
-        private readonly ILogger<PlayerController> _logger;
-        public BossController(ILogger<PlayerController> logger)
+        public BossController()
         {
-            _logger = logger;
+
         }
 
         [HttpGet]
         public IActionResult GetBosses()
         {
-            List<BossOverviewDTO> Bosses = new List<BossOverviewDTO>();
             try
             {
-                
-                Bosses = _bossLogic.GetBosses();
+                List<BossOverviewDTO> Bosses = _bossLogic.GetBosses();
 
                 return Ok(new
                 {
@@ -108,17 +105,12 @@ namespace MMOlogs_BackEnd.Controllers
                 return NotFound(new
                 {
                     success = false,
+                    message = ex.Message,
                     code = 404
                 });
             }
 
         }
-
-
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
 
     }
 }

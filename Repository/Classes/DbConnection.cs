@@ -8,6 +8,10 @@ namespace Repository.Classes
 {
     public class DbConnection
     {
+        public DbConnection() { }
+
+
+        //This is abandoned
 
     }
 }

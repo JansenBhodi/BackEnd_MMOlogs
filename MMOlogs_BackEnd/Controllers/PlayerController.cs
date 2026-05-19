@@ -13,24 +13,22 @@ namespace MMOlogs_BackEnd.Controllers
     public class PlayerController : ControllerBase
     {
         private readonly PlayersLogic _playerLogic = new PlayersLogic(new MmoPlayerCalls());
-        private readonly ILogger<PlayerController> _logger;
-        public PlayerController(ILogger<PlayerController> logger)
+        public PlayerController()
         {
-            _logger = logger;
+
         }
 
         [HttpGet]
         public IActionResult AllListedPlayers()
         {
-            List<MmoPlayer> result = new List<MmoPlayer>();
             try
             {
-                result = _playerLogic.GetListedPlayers();
+                List<MmoPlayer> result = _playerLogic.GetListedPlayers();
 
                 return Ok(new
                 {
                     data = result,
-                    totalCount = result.Count(),
+                    totalCount = result.Count,
                     success = true,
                     code = 200
                 });
@@ -118,6 +116,7 @@ namespace MMOlogs_BackEnd.Controllers
                 return NotFound(new
                 {
                     success = false,
+                    message = ex.Message,
                     code = 404
                 });
             }

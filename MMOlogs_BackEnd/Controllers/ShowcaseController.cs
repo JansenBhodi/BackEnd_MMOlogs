@@ -26,18 +26,24 @@ namespace MMOlogs_BackEnd.Controllers
         [HttpPost]
         public void Post([FromBody] string value)
         {
+            //Not yet implemented on either side, low priority
+            throw new NotSupportedException();
         }
 
         // PUT api/<PlayerTestController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
+            //Not yet implemented on either side, low priority
+            throw new NotSupportedException();
         }
 
         // DELETE api/<PlayerTestController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            //Not yet implemented on either side, low priority
+            throw new NotSupportedException();
         }
     }
 }
