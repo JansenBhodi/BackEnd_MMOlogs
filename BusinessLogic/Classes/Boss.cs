@@ -25,10 +25,8 @@ namespace BusinessLogic.Classes
 
         public Boss() 
         {
-            Name = string.Empty;
-            Description = string.Empty;
-        }
 
+        }
         public Boss(BossCreateDTO dto)
         {
             Name = dto.Name;

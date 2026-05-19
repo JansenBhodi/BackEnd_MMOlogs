@@ -13,8 +13,8 @@ namespace BusinessLogic.Classes
     {
         [Key]
         public int ID { get; set; }
-        public required string Name { get; set; }
-        public string? Description { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         public int Vitality { get; set; }
         public StatInfo ClassStat { get; set; } = new();
         public StatInfo PrimaryStat { get; set; } = new();
@@ -28,7 +28,7 @@ namespace BusinessLogic.Classes
     [Owned]
     public class StatInfo
     {
-        public string? StatName { get; set; }
+        public string StatName { get; set; }
         public int StatValue { get; set; }
     }
 }
