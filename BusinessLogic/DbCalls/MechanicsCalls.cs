@@ -30,6 +30,10 @@ namespace BusinessLogic.DbCalls
                 ex = new InvalidOperationException(message: "There is no mechanic with this Id.");
                 throw ex;
             }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public Mechanic AddMechanic(MechanicCreateDTO input)
@@ -79,8 +83,6 @@ namespace BusinessLogic.DbCalls
                     context.SaveChanges();
                     return true;
                 }
-                //how the hell would you get here
-                return false;
             }
             catch (Exception)
             {

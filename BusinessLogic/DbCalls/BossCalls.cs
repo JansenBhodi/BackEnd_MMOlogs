@@ -57,6 +57,10 @@ namespace BusinessLogic.DbCalls
                 ex = new InvalidOperationException(message: "There is no boss with this Id.");
                 throw ex;
             }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public Boss AddBoss(BossCreateDTO bossCreateDTO)
