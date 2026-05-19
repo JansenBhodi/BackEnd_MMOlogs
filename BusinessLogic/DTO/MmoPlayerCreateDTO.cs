@@ -12,5 +12,9 @@ namespace BusinessLogic.DTO
         public string Name { get; set; }
         public Roleclass Roleclass { get; set; }
 
+        public MmoPlayerCreateDTO()
+        {
+            Name = string.Empty;
+        }
     }
 }

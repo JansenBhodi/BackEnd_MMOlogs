@@ -30,7 +30,7 @@ namespace BusinessLogic.Classes
 
         public RaidLog()
         {
-
+            Uploader = string.Empty;
         }
 
         public RaidLog(RaidLogCreateDTO input, int entry)

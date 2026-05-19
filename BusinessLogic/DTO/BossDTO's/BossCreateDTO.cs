@@ -15,7 +15,7 @@ namespace BusinessLogic.DTO
 
         public BossCreateDTO()
         {
-
+            Name = string.Empty;
         }
 
         public BossCreateDTO(string name, string desc, int maxLife, int level)

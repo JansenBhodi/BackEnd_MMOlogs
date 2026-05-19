@@ -20,11 +20,16 @@ namespace BusinessLogic.DTO.RaidLogDTO_s
             public int DamageDone { get; set; }
             public int DeathCount { get; set; }
             public int HealingDone { get; set; }
+
+            public RaidLogEntry()
+            {
+                BossName = string.Empty;
+            }
         }
 
         public RaidLogCreateDTO()
         {
-
+            Uploader = string.Empty;
         }
     }
 }
