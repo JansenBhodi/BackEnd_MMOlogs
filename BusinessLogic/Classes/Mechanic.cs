@@ -16,10 +16,10 @@ namespace BusinessLogic.Classes
         public int Id { get; set; }
 
         [StringLength(100), Required]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         [Required]
-        public string Description { get; set; }
+        public required string Description { get; set; }
 
         public int BossId { get; set; }
 
@@ -28,7 +28,8 @@ namespace BusinessLogic.Classes
 
         public Mechanic()
         {
-
+            Name = string.Empty;
+            Description = string.Empty;
         }
 
         public Mechanic(MechanicCreateDTO input)
