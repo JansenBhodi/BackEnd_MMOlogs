@@ -28,7 +28,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Setup MSBuild.exe
-        uses: microsoft/setup-msbuild@6fb0222268b5cf39d8a8cbf7b2866cbf53508ae6
+        uses: microsoft/setup-msbuild@6fb02220983dee41ce7ae257b6f4d8f9bf5ed4ce
 
       - name: Install dotnet-coverage
         run: dotnet tool install --global dotnet-coverage
