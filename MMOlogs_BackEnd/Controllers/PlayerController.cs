@@ -10,7 +10,7 @@ namespace MMOlogs_BackEnd.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PlayerController : ControllerBase
+    public class PlayerController : BaseController
     {
         private readonly PlayersLogic _playerLogic = new PlayersLogic(new MmoPlayerCalls());
         public PlayerController()
@@ -25,29 +25,11 @@ namespace MMOlogs_BackEnd.Controllers
             {
                 List<MmoPlayer> result = _playerLogic.GetListedPlayers();
 
-                return Ok(new
-                {
-                    data = result,
-                    totalCount = result.Count,
-                    success = true,
-                    code = 200
-                });
+                return HandleSuccess(result);
             }
-            catch (InvalidOperationException ex)
+            catch (Exception ex)
             {
-                return BadRequest(new
-                {
-                    success = false,
-                    message = ex.Message
-                });
-            }
-            catch (Exception)
-            {
-                return NotFound(new
-                {
-                    success = false,
-                    code = 404
-                });
+                return HandleException(ex);
             }
         }
         [HttpGet("{name}")]
@@ -60,36 +42,11 @@ namespace MMOlogs_BackEnd.Controllers
                 {
                     throw new InvalidOperationException(message: "No User was found with this name");
                 }
-                return Ok(new 
-                {
-                    data = result,
-                    success = true,
-                    code = 200
-                });
+                return HandleSuccess(result);
             }
-            catch(ArgumentException ex)
+            catch (Exception ex)
             {
-                return Ok(new
-                {
-                    success = false,
-                    message = ex.Message
-                });
-            }
-            catch (InvalidOperationException ex)
-            {
-                return Ok(new
-                {
-                    message = ex.Message,
-                    success = false
-                });
-            }
-            catch (Exception)
-            {
-                return NotFound(new
-                {
-                    success = false,
-                    code = 404
-                });
+                return HandleException(ex);
             }
         }
         [HttpPost]
