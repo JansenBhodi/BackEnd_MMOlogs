@@ -17,14 +17,11 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddCors(options =>
 {
-    builder.Services.AddCors(options =>
+    options.AddPolicy("AllowReactToConnect", policy =>
     {
-        options.AddPolicy("AllowReactToConnect", policy =>
-        {
-            policy.WithOrigins(builder.Configuration["AllowedOrigins"] ?? "http://localhost:5173")
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        });
+        policy.WithOrigins(builder.Configuration["AllowedOrigins"] ?? "http://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
     });
 });
 
