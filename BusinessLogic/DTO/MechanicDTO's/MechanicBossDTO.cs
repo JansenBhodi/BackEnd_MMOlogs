@@ -19,7 +19,8 @@ namespace BusinessLogic.DTO.MechanicDTO_s
         public MechanicBossDTO(Boss input) 
         {
             Id = input.Id;
-            Name = input.Name;  
+            Name = input.Name;
+            Description = string.Empty;
         }
     }
 }

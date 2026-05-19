@@ -14,5 +14,11 @@ namespace BusinessLogic.DTO
         public int MaxLife { get; set; }
         public int Level { get; set; }
 
+        public BossOverviewDTO()
+        {
+            Name = string.Empty;
+            Description = string.Empty;
+        }
+
     }
 }

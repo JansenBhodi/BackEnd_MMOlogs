@@ -18,7 +18,7 @@ namespace BusinessLogic.Classes
 
         public MmoPlayer()
         {
-
+            Name = string.Empty;
         }
 
         public MmoPlayer(int id, string name, Roleclass roleclass)

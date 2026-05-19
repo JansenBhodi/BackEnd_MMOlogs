@@ -19,7 +19,7 @@ namespace BusinessLogic.DTO.RaidLogDTO_s
 
         public RaidLogDetailDTO()
         {
-
+            Uploader = string.Empty;
         }
     }
 }

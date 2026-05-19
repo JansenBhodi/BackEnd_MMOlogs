@@ -23,6 +23,12 @@ namespace BusinessLogic.Classes
 
         [JsonIgnore]
         public ICollection<Boss> Bosses { get; set; } = new List<Boss>(); 
+
+        public  ItemDrop()
+        {
+            Name = string.Empty;
+            Description = string.Empty;
+        }
     }
 
     [Owned]
@@ -30,5 +36,10 @@ namespace BusinessLogic.Classes
     {
         public string StatName { get; set; }
         public int StatValue { get; set; }
+
+        public StatInfo()
+        {
+            StatName = string.Empty;
+        }
     }
 }

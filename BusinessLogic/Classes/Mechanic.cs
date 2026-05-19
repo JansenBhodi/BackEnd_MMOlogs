@@ -28,7 +28,8 @@ namespace BusinessLogic.Classes
 
         public Mechanic()
         {
-
+            Name = string.Empty;
+            Description = string.Empty;
         }
 
         public Mechanic(MechanicCreateDTO input)

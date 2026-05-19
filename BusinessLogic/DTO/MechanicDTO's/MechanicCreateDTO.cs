@@ -12,5 +12,11 @@ namespace BusinessLogic.DTO.MechanicDTO_s
         public string Name { get; set; }
         public string Description { get; set; }
         public int BossId { get; set; }
+
+        public MechanicCreateDTO()
+        {
+            Name = string.Empty;
+            Description = string.Empty;
+        }
     }
 }
