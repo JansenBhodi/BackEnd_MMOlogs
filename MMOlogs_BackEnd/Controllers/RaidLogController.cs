@@ -10,7 +10,7 @@ namespace MMOlogs_BackEnd.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class RaidLogController : ControllerBase
+    public class RaidLogController : BaseController
     {
         private readonly RaidLogLogic _logic = new RaidLogLogic(new RaidLogCalls());
         
@@ -26,17 +26,11 @@ namespace MMOlogs_BackEnd.Controllers
             try
             {
                 List<RaidLog> outcome = _logic.AddRaidLog(input);
-                return Ok(new
-                { 
-                    data = outcome,
-                    success = true,
-                    code = 200
-                });
-        }
-            catch (Exception)
+                return HandleSuccess(outcome);
+            }
+            catch (Exception ex)
             {
-
-                throw;
+                return HandleException(ex);
             }
         }
     }

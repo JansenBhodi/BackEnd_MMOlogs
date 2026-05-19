@@ -18,12 +18,14 @@ builder.Services.AddOpenApi();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactToConnect", policy =>
-        {
-            policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-        });
+    {
+        policy.WithOrigins(builder.Configuration["AllowedOrigins"] ?? "http://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
 });
 
-builder.WebHost.UseUrls("http://0.0.0.0:8080");
+builder.WebHost.UseUrls("https://0.0.0.0:8080");
 
 var app = builder.Build();
 

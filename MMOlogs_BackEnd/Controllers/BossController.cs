@@ -10,7 +10,7 @@ namespace MMOlogs_BackEnd.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class BossController : ControllerBase
+    public class BossController : BaseController
     {
         private readonly BossLogic _bossLogic = new BossLogic(new BossCalls());
         public BossController()
@@ -25,20 +25,11 @@ namespace MMOlogs_BackEnd.Controllers
             {
                 List<BossOverviewDTO> Bosses = _bossLogic.GetBosses();
 
-                return Ok(new
-                {
-                    data = Bosses,
-                    success = true,
-                    code = 200
-                });
+                return HandleSuccess(Bosses);
             }
             catch (Exception ex)
             {
-                return BadRequest(new
-                {
-                    success = false,
-                    message = ex.Message
-                });
+                return HandleException(ex);
             }
         }
 
@@ -49,36 +40,11 @@ namespace MMOlogs_BackEnd.Controllers
             {
                 BossDetailDTO result = _bossLogic.GetBoss(id);
 
-                return Ok(new
-                {
-                    data = result,
-                    success = true,
-                    code = 200
-                });
+                return HandleSuccess(result);
             }
-            catch (ArgumentException ex)
+            catch (Exception ex)
             {
-                return Ok(new
-                {
-                    success = false,
-                    message = ex.Message
-                });
-            }
-            catch (InvalidOperationException ex)
-            {
-                return Ok(new
-                {
-                    message = ex.Message,
-                    success = false
-                });
-            }
-            catch (Exception)
-            {
-                return NotFound(new
-                {
-                    success = false,
-                    code = 404
-                });
+                return HandleException(ex);
             }
         }
 

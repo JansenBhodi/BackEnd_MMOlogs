@@ -6,7 +6,7 @@ namespace MMOlogs_BackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ShowcaseController : ControllerBase
+    public class ShowcaseController : BaseController
     {
         // GET: api/<PlayerTestController>
         [HttpGet]
