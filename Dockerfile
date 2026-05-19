@@ -13,7 +13,9 @@ COPY ["MMOlogs_BackEnd/MMOlogs_BackEnd.csproj", "MMOlogs_BackEnd/"]
 COPY ["BusinessLogic/BusinessLogic.csproj", "BusinessLogic/"]
 COPY ["Repository/Repository.csproj", "Repository/"]
 RUN dotnet restore "MMOlogs_BackEnd/MMOlogs_BackEnd.csproj"
-COPY . .
+COPY MMOlogs_BackEnd/ MMOlogs_BackEnd/
+COPY BusinessLogic/ BusinessLogic/
+COPY Repository/ Repository/
 WORKDIR "/src/MMOlogs_BackEnd"
 RUN dotnet build "MMOlogs_BackEnd.csproj" -c $BUILD_CONFIGURATION -o /app/build
 

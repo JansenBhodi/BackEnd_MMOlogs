@@ -28,7 +28,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Setup MSBuild.exe
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@6fb0222268b5cf39d8a8cbf7b2866cbf53508ae6
 
       - name: Install dotnet-coverage
         run: dotnet tool install --global dotnet-coverage
@@ -44,7 +44,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          dotnet-sonarscanner begin /k:"JansenBhodi_BackEnd_MMOlogs" /o:"jansenbhodi" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths="coverage.xml" /d:sonar.coverage.exclusions="**/Migrations/**,**/obj/**,**/bin/**,**/Classes/**,**/DTO/**,**/Repository/**,**/Program.cs,**/WeatherForecast.cs,**/MSTestSettings.cs,**/Test1.cs"
+          dotnet-sonarscanner begin /k:"JansenBhodi_BackEnd_MMOlogs" /o:"jansenbhodi" /d:sonar.token="$env:SONAR_TOKEN" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths="coverage.xml" /d:sonar.coverage.exclusions="**/Migrations/**,**/obj/**,**/bin/**,**/Classes/**,**/DTO/**,**/Repository/**,**/Program.cs,**/WeatherForecast.cs,**/MSTestSettings.cs,**/Test1.cs"
 
       - name: Build
         run: dotnet build MMOlogs_BackEnd/MMOlogs_BackEnd.csproj --configuration Release
@@ -56,4 +56,4 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          dotnet-sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
