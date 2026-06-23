@@ -22,6 +22,24 @@ namespace BusinessLogic.Logic
         {
             try
             {
+                if(input.Uploader != "")
+                {
+                    throw new ArgumentException(message: "Uploader name cannot be blank.");
+                }
+
+                try
+                {
+                    foreach(var pull in input.pulls)
+                    {
+
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
                 return _dbCall.CreateRaidLog(input);
             }
             catch (Exception)

@@ -14,6 +14,7 @@ namespace BusinessLogic.Classes
         public DbSet<Mechanic> Mechanics { get; set; }
         public DbSet<ItemDrop> ItemDrops { get; set; }
         public DbSet<RaidLog> RaidLogs { get; set; }
+        public DbSet<WebUser> WebUsers { get; set; }
 
         public string DbPath { get; }
 
