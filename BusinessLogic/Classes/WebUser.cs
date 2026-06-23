@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLogic.DTO.WebUserDTO_s;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace BusinessLogic.Classes
         [Required]
         public string Password { get; set; }
         [Required]
+        public string PasswordHash { get; set; }
+        [Required]
         public WebUserRole UserRole { get; set; }
 
         public WebUser()
@@ -32,11 +35,23 @@ namespace BusinessLogic.Classes
         }
 
         //account creation
-        public WebUser(string username, string password, WebUserRole role)
+        public WebUser(WebUserRegisterDTO input)
         {
-            Username = username;
-            Password = password;
-            UserRole = role;
+            Username = input.UserName;
+            Password = input.Password;
+            UserRole = input.UserRole;
+            PasswordHash = RandomString();
         }
+
+        private static Random random = new Random();
+
+        public static string RandomString()
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, 10)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+
     }
 }
