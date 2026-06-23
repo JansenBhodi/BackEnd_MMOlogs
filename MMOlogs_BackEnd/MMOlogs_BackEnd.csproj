@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-	  <Content Include="..\mmo.db">
+	  <Content Include="..\mmo.db" Condition="Exists('..\mmo.db')">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.11" />
