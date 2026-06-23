@@ -21,7 +21,7 @@ namespace MMOlogs_BackEnd.Controllers
         
 
         [HttpPost]
-        public IActionResult AddRaidLog([FromBody] RaidLogCreateDTO input)
+        public IActionResult AddRaidLog([FromBody]RaidLogCreateDTO input)
         {
             try
             {
@@ -33,5 +33,7 @@ namespace MMOlogs_BackEnd.Controllers
                 return HandleException(ex);
             }
         }
+
+
     }
 }

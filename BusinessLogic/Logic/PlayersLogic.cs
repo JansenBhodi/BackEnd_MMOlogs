@@ -11,7 +11,7 @@ namespace BusinessLogic.Logic
     public class PlayersLogic
     {
         //Create class that handles data calls (this separates ef when doing unit tests on business logic)
-        private ImmoPlayerCalls _dbCall;
+        private readonly ImmoPlayerCalls _dbCall;
 
         public PlayersLogic(ImmoPlayerCalls dbCall)
         {
@@ -20,7 +20,7 @@ namespace BusinessLogic.Logic
 
         public List<MmoPlayer> GetListedPlayers()
         {
-            List<MmoPlayer> result = new List<MmoPlayer>();
+            List<MmoPlayer> result;
 
             try
             {
@@ -75,14 +75,14 @@ namespace BusinessLogic.Logic
                 {
                     if(_dbCall.GetPlayerByName(input.Name) != null)
                     {
-                        throw new ArgumentException();
+                        throw new ArgumentException(message: "This user already exists");
                     }
                 }
                 //Why did I do it like this.... Maybe I will fix it later.
                 catch (ArgumentException)
                 {
 
-                    throw new ArgumentException(message:"This user already exists.");
+                    throw;
                 }
 
                 //input should be validated at this point, let's add it to the database
